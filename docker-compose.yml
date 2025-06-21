@@ -1,0 +1,14 @@
+services:
+  pyroscope-server:
+    image: grafana/pyroscope:1.13.2
+    ports:
+      - "4040:4040"
+
+  go-app:
+    build: .
+    environment:
+      - PYROSCOPE_SERVER_ADDRESS=http://pyroscope-server:4040
+    ports:
+      - "8080:8080"
+    depends_on:
+      - pyroscope-server
